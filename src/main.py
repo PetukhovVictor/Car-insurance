@@ -4,7 +4,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import label_binarize
 from pprint import pprint
-import numpy as np
 
 import utils
 
