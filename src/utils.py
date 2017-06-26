@@ -5,6 +5,7 @@ from sklearn import tree
 import pydotplus
 from sklearn import metrics
 from sklearn.model_selection import cross_val_score
+from pprint import pprint
 
 def plot(data, labels, column_1_number, column_2_number, title):
     X = np.array(data)[:, column_1_number]
@@ -50,6 +51,7 @@ def draw_roc_curve(classes, y_test, y_score):
     roc_auc = dict()
     for i in range(classes):
         fpr[i], tpr[i], _ = metrics.roc_curve(y_test[:, i], y_score[:, i])
+        pprint(y_test[:, i])
         roc_auc[i] = metrics.auc(fpr[i], tpr[i])
         plt.plot(fpr[i], tpr[i], label='ROC curve of class {0} (area = {1:0.2f})'
                                        ''.format(i, roc_auc[i]))
@@ -71,3 +73,16 @@ def draw_cross_val_score(clf, X, Y, cv, scalled=False):
         plt.ylim([0.0, 1.0])
     plt.title('Cross-validation result')
     plt.show()
+
+def calc_score(y_test, y_predicted):
+    y_test = np.array(map(np.argmax, y_test))
+    y_predicted = np.array(map(np.argmax, y_predicted))
+
+    counter = 0
+    scores = 0
+    for y in y_predicted:
+        if y == y_test[counter]:
+            scores += 1
+        counter += 1
+
+    return float(scores) / float(counter)
