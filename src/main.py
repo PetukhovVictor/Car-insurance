@@ -23,16 +23,25 @@ n_classes = Y_binarized.shape[1]
 # Разделяем выборку на train и test в пропорции 1/9
 X_train, X_test, y_train, y_test = train_test_split(X, Y_binarized, test_size=0.1)
 
-# Берем decision tree классификатор и обучаем его по train выборке
+# Получаем инстанс decision tree классификатора
 clf = DecisionTreeClassifier()
 
+# Обучаем алгоритм по train выборке
 clf_fit = clf.fit(X_train, y_train)
 
-y_predicted = clf.predict(X_test)
+# Предсказываем значения train выборки
+y_predicted_train = clf.predict(X_train)
 
-# Считаем score по y фактическому и y предсказанному
-score = utils.calc_score(y_test, y_predicted)
-pprint(score)
+# Считаем score по y фактическому и y предсказанному для train выборки
+score = utils.calc_score(y_train, y_predicted_train)
+print(score)
+
+# Предсказываем значения test выборки
+y_predicted_test = clf.predict(X_test)
+
+# Считаем score по y фактическому и y предсказанному для test выборки
+score = utils.calc_score(y_test, y_predicted_test)
+print(score)
 
 # Визуализируем дерево решений, которое сформировал классификатор, и сохраняем в pdf-файл
 utils.decision_tree_save(clf, iris, "decision_tree.pdf")
